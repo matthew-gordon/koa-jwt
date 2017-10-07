@@ -10,7 +10,6 @@ const routes = require('./routes')
 
 app.use(bodyParser({ multipart: true }))
 app.use(routes.routes())
-app.use(routes.allowedMethods())
 
 const server = app.listen(port, () => {
   console.log(`Listening on port ${port}...`);

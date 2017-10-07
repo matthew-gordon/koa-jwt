@@ -21,7 +21,31 @@ router.post(`/users/register`, async (ctx) => {
     }
     // handle errors
   } catch (err) {
-    console.log(err);
+    ctx.status = 500
+    ctx.body = {
+      status: 'error'
+    }
+  }
+})
+
+// Login registered user
+router.post('/users/login', async (ctx) => {
+  const {username, password} = ctx.request.body
+
+  try {
+    // Get user from DB with helper function
+    const user = await authHelpers.getUser(username)
+    // Compare password to hash in DB
+    const response = await authHelpers.comparePass(password, user.password)
+    // Generate token for authenticated user
+    const token = await localAuth.encodeToken(user)
+    // Send token to client
+    ctx.status = 200
+    ctx.body = {
+      status: 'success',
+      token
+    }
+  } catch (err) {
     ctx.status = 500
     ctx.body = {
       status: 'error'
