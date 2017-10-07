@@ -1,56 +1,47 @@
+const bcrypt = require('bcryptjs')
+const users = [
+  {
+    id: '345ae4d0-f2c3-4342-91a2-5b45cb8db57f',
+    name: 'admin',
+    email: 'admin@email.com',
+    admin: true
+  },
+  {
+    id: '16c1ef84-df72-4be1-ad46-1168ee53cd60',
+    name: 'matt'
+  },
+  {
+    id: 'b8d2586f-4746-418c-82b2-db9eff7a7f42',
+    name: 'hannah'
+  },
+  {
+    id: '52e1cc10-20b9-4cf2-ad94-3b0c135d35a5',
+    name: 'charlie'
+  },
+  {
+    id: '52e1cc10-20b9-4ce2-ad94-3b0c135d35a6',
+    name: 'zeldi'
+  }
+]
 
+function getUsers () {
+  return users.map(user => {
+    const salt = bcrypt.genSaltSync()
+    const hash = bcrypt.hashSync('password123', salt)
 
-exports.seed = (knex, Promise) => {
+    return {
+      id: user.id,
+      email: user.email || `${user.name}@email.com`,
+      username: user.name,
+      password: hash,
+      is_admin: user.admin || false
+    }
+  })
+}
+
+exports.getUsers = getUsers
+
+exports.seed = async function (knex) {
   return knex('users').del()
-  .then(() => {
-    return knex('users').insert({
-      id:  'cfd94fb0-e7f6-48ac-b106-11370cfe8540',
-      email: 'admin@email.com',
-      username: 'admin',
-      password: 'hash',
-      image: 'http://image.com/image',
-      bio: 'I am a bio for the admin.',
-      is_admin: true
-    })
-  })
-  .then(() => {
-    return knex('users').insert({
-      id: 'e6d40212-09a7-4658-928f-d8b8edf479f1',
-      email: 'matt@email.com',
-      username: 'matt',
-      password: 'hash',
-      image: 'http://image.com/image',
-      bio: 'I am a bio for the matt.'
-    })
-  })
-  .then(() => {
-    return knex('users').insert({
-      id: 'a3a96992-b2e7-4e2d-a9b0-fca02f19b22f',
-      email: 'hannah@email.com',
-      username: 'hannah',
-      password: 'hash',
-      image: 'http://image.com/image',
-      bio: 'I am a bio for the hannah.'
-    })
-  })
-  .then(() => {
-    return knex('users').insert({
-      id: 'fd0aef4a-4990-46ed-b04c-bdc16e8ff203',
-      email: 'charlie@email.com',
-      username: 'charlie',
-      password: 'hash',
-      image: 'http://image.com/image',
-      bio: 'I am a bio for the charlie.'
-    })
-  })
-  .then(() => {
-    return knex('users').insert({
-      id: 'b45fd4b1-544f-459d-84cd-57029a85da97',
-      email: 'zeldi@email.com',
-      username: 'zeldi',
-      password: 'hash',
-      image: 'http://image.com/image',
-      bio: 'I am a bio for the zeldi.'
-    })
-  })
+    .then(() => knex('users').insert(getUsers()))
 }

@@ -1,15 +1,19 @@
-require('dotenv').config()
-
 const Koa = require('koa')
-const indexRoutes = require('./routes')
+const bodyParser = require('koa-body')
 
 const app = new Koa()
-const PORT = 1337
+const port = process.env.PORT || 3000
 
-app.use(indexRoutes.routes())
+require('dotenv').config()
 
-const server = app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`)
+const routes = require('./routes')
+
+app.use(bodyParser({ multipart: true }))
+app.use(routes.routes())
+app.use(routes.allowedMethods())
+
+const server = app.listen(port, () => {
+  console.log(`Listening on port ${port}...`);
 })
 
 module.exports = server

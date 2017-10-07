@@ -6,12 +6,9 @@ exports.up = function(knex, Promise) {
     table.text('email').unique().notNullable()
     table.text('username').unique().notNullable()
     table.text('password').notNullable()
-    table.text('image').defaultTo('')
-    table.text('bio').defaultTo('')
     table.boolean('is_admin').defaultTo(false)
     table.timestamps(true, true)
   })
-
 }
 
 exports.down = function(knex, Promise) {
