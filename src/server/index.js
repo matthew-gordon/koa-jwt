@@ -1,14 +1,16 @@
+require('dotenv').config()
+
 const Koa = require('koa')
 const bodyParser = require('koa-body')
 
 const app = new Koa()
 const port = process.env.PORT || 3000
 
-require('dotenv').config()
 
 const routes = require('./routes')
 
 app.use(bodyParser({ multipart: true }))
+
 app.use(routes.routes())
 
 const server = app.listen(port, () => {
