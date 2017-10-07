@@ -14,9 +14,12 @@
     "mocha": "3.5.0"
   },
   "dependencies": {
+    "dotenv": "^4.0.0",
+    "jsonwebtoken": "^8.0.1",
     "knex": "^0.13.0",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
+    "moment": "^2.18.1",
     "pg": "^7.3.0",
     "uuid": "^3.1.0"
   }
