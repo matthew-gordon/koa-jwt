@@ -23,7 +23,7 @@ app.use(user)
 app.use(routes.routes())
 app.use(async (ctx) => {
   ctx.body = {
-    message: 'Welcome to your api'
+    message: 'Welcome to your new api!'
   }
 })
 // server listening
