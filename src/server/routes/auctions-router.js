@@ -2,6 +2,7 @@ const Router = require('koa-router')
 const router = new Router()
 
 const knex = require('../db/knex')
+const uuid = require('uuid')
 
 router.get('/auctions', async (ctx) => {
   try {
@@ -40,6 +41,22 @@ router.get('/auctions/:slug', async (ctx) => {
       status: 'error',
       err
     }
+  }
+})
+
+router.post('/auctions', async (ctx) => {
+  const auction = ctx.request.body
+
+  auction.id = uuid()
+
+  const newAuction = await knex('auctions')
+    .insert(auction)
+    .returning('*')
+
+  ctx.status = 200
+  ctx.body = {
+    status: 'success',
+    data: newAuction
   }
 })
 

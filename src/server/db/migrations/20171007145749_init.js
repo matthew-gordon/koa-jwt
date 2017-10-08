@@ -16,7 +16,7 @@ exports.up = function(knex, Promise) {
     table.uuid('id').primary().unique().notNullable()
     table.text('slug').unique().notNullable()
     table.text('title').notNullable()
-    table.text('description').unique().notNullable()
+    table.text('description').notNullable()
     table.decimal('price').defaultTo(0.00)
     table.string('location').notNullable()
     table.integer('watches_count').defaultTo(0)
