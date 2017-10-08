@@ -20,7 +20,7 @@ describe('routes : auctions', () => {
   afterEach(() => knex.migrate.rollback())
 
   describe('GET /api/auctions', () => {
-    xit('should return all auctions', (done) => {
+    it('should return all auctions', (done) => {
       chai.request(server)
       .get('/api/auctions')
       .end((err, res) => {
@@ -49,7 +49,7 @@ describe('routes : auctions', () => {
   })
 
   describe('GET /api/auctions/:slug', () => {
-    xit('should return single auction by slug', (done) => {
+    it('should return single auction by slug', (done) => {
       chai.request(server)
       .get('/api/auctions/new-title')
       .end((err, res) => {
@@ -66,7 +66,7 @@ describe('routes : auctions', () => {
 
   describe('POST /api/auctions', () => {
     const title = 'new-title-2'
-    xit('should create a new auction', (done) => {
+    it('should create a new auction', (done) => {
       chai.request(server)
       .post('/api/auctions')
       .send({
@@ -124,8 +124,22 @@ describe('routes : auctions', () => {
         )
         res.body.data[0].title.should.eql('updated title')
         res.body.data[0].slug.should.eql('updated-title')
-        res.body.data[0].price.should.eql(17786.44)
+        res.body.data[0].price.should.eql('17786.44')
         res.body.data[0].location.should.eql('Aurora, CO')
+        done()
+      })
+    })
+  })
+
+  describe('DELETE /auctions/:slug', () => {
+    it('should delete an auction by slug', (done) => {
+      chai.request(server)
+      .delete('/api/auctions/new-title')
+      .end((err, res) => {
+        should.not.exist(err)
+        res.redirects.length.should.eql(0)
+        res.status.should.eql(200)
+        res.type.should.eql('application/json')
         done()
       })
     })

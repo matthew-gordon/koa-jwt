@@ -64,7 +64,7 @@ router.post('/auctions', async (ctx) => {
   }
 })
 
-//PUT update an auction by slug
+// PUT update an auction by slug
 router.put('/auctions/:slug', async (ctx) => {
   const slugParam = ctx.params.slug
   const {body} = ctx.request
@@ -83,6 +83,21 @@ router.put('/auctions/:slug', async (ctx) => {
   ctx.body = {
     status: 'success',
     data: updatedAuction
+  }
+})
+
+// DELETE auction by slug
+router.del('/auctions/:slug', async (ctx) => {
+  const {slug} = ctx.params
+  const auction = await knex('auctions')
+    .del()
+    .where({slug})
+    .returning('*')
+
+  ctx.status = 200
+  ctx.body = {
+    status: 'success',
+    data: auction
   }
 })
 
