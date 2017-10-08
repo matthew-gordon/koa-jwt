@@ -37,6 +37,32 @@ describe('routes : auth', () => {
         done()
       })
     })
+    it('should throw an error if email already exists', (done) => {
+      chai.request(server)
+      .post('api/users/register')
+      .send({
+        email: 'matt@email.com',
+        username: 'larry',
+        password: 'password123'
+      })
+      .end((err, res) => {
+        should.exist(err)
+        done()
+      })
+    })
+    it('should throw an error if username already exists', (done) => {
+      chai.request(server)
+      .post('api/users/register')
+      .send({
+        email: 'new@email.com',
+        username: 'matt',
+        password: 'password123'
+      })
+      .end((err, res) => {
+        should.exist(err)
+        done()
+      })
+    })
   })
 
   describe('POST /api/users/login', () => {
