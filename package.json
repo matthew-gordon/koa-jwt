@@ -2,6 +2,9 @@
   "name": "gh_api",
   "version": "1.0.0",
   "main": "index.js",
+  "engines":{
+    "node": ">= 8.6.0"
+  },
   "scripts": {
     "start": "node ./src/server/index.js",
     "test": "./node_modules/mocha/bin/_mocha"
