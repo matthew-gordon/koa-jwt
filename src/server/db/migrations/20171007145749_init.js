@@ -17,7 +17,7 @@ exports.up = function(knex, Promise) {
     table.text('slug').unique().notNullable()
     table.text('title').notNullable()
     table.text('description').unique().notNullable()
-    table.decimal('price', 8, 2).defaultTo(0.00)
+    table.decimal('price').defaultTo(0.00)
     table.string('location').notNullable()
     table.integer('watches_count').defaultTo(0)
     table.uuid('winner_id').defaultTo(null).references('users.id')

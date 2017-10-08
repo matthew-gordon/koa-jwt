@@ -46,4 +46,20 @@ describe('routes : auctions', () => {
     })
   })
 
+  describe('GET /api/auctions/:slug', () => {
+    it('should return single auction by slug', (done) => {
+      chai.request(server)
+      .get('/api/auctions/new-title')
+      .end((err, res) => {
+        should.not.exist(err)
+        res.redirects.length.should.eql(0)
+        res.status.should.eql(200)
+        res.type.should.eql('application/json')
+        res.body.data.should.have.property('slug')
+        res.body.data.slug.should.eql('new-title')
+        done()
+      })
+    })
+  })
+
 })
