@@ -30,7 +30,7 @@ module.exports = {
       directory: path.join(BASE_PATH, 'migrations')
     },
     seeds: {
-      directory: path.joing(BASE_PATH, 'seeds')
+      directory: path.join(BASE_PATH, 'seeds')
     }
   }
 }
