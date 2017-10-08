@@ -46,7 +46,7 @@ function getUsers () {
 
 exports.getUsers = getUsers
 
-exports.seed = async function (knex) {
+exports.seed = async (knex) => {
   return knex('users').del()
     .then(() => knex('users').insert(getUsers()))
 }
