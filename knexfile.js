@@ -23,4 +23,14 @@ module.exports = {
       directory: path.join(BASE_PATH, 'seeds')
     }
   },
+  production: {
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
+    migrations: {
+      directory: path.join(BASE_PATH, 'migrations')
+    },
+    seeds: {
+      directory: path.joing(BASE_PATH, 'seeds')
+    }
+  }
 }
