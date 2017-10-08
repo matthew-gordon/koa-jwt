@@ -7,7 +7,7 @@ const should = chai.should()
 
 const utils = require('../../src/server/lib/utils')
 
-describe('auth : utils', () => {
+describe('lib : utils', () => {
 
   describe('generateJWTforUser()', () => {
     it('should create a user with token', () => {
@@ -20,6 +20,7 @@ describe('auth : utils', () => {
         is_admin: false
       }
       const result = utils.generateJWTforUser(user)
+
       should.exist(result)
       result.should.be.a('object')
       result.should.have.property('id')
@@ -34,5 +35,4 @@ describe('auth : utils', () => {
       result.is_admin.should.eql(user.is_admin)
     })
   })
-
 })

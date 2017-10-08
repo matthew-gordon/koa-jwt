@@ -1,21 +1,20 @@
 const Router = require('koa-router')
 const router = new Router()
 
-// const localAuth = require('../auth/local')
 const authHelpers = require('../auth/_helpers')
 const {generateJWTforUser} = require('../lib/utils')
 
 const auth = require('../middleware/auth-required-middleware')
 
-// Register new user
+// register new user
 router.post('/users/register', async (ctx) => {
   const user = ctx.request.body
   try {
-    // Create user with helper function
+    // create user with helper function
     const response = await authHelpers.createUser(user)
-    // Generate user with token
+    // generate user with token
     const payload = generateJWTforUser(response[0])
-    // Remove password from
+    // remove password from
     delete payload.password
     // send token to client
     ctx.status = 200
@@ -32,20 +31,24 @@ router.post('/users/register', async (ctx) => {
   }
 })
 
-// Login registered user
+// login registered user
 router.post('/users/login', async (ctx) => {
   const {username, password} = ctx.request.body
 
   try {
-    // Get user from DB with helper function
+    // get user from DB with helper function
     const user = await authHelpers.getUser(username)
-    // Compare password to hash in DB
+
+    // compare password to hash in DB
     const response = await authHelpers.comparePass(password, user.password)
-    // Generate token for authenticated user
+
+    // generate token for authenticated user
     const payload = generateJWTforUser(user)
-    // Delete password from payload
+
+    // delete password from payload
     delete payload.password
-    // Send token to client
+
+    // send token to client
     ctx.status = 200
     ctx.body = {
       status: 'success',
@@ -60,8 +63,10 @@ router.post('/users/login', async (ctx) => {
 })
 
 router.get('/auth/user', auth, async (ctx) => {
+  // grab user from ctx state
   const user = ctx.state.user
-
+  
+  // send user to client
   ctx.status = 200
   ctx.body = {
     status: 'success',
