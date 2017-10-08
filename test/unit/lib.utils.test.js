@@ -10,7 +10,7 @@ const utils = require('../../src/server/lib/utils')
 describe('lib : utils', () => {
 
   describe('generateJWTforUser()', () => {
-    it('should create a user with token', () => {
+    xit('should create a user with token', () => {
       const user = {
         id: uuid(),
         username: 'matteo',
