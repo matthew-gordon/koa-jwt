@@ -50,8 +50,10 @@ router.get('/auctions/:slug', async (ctx) => {
 // POST create new auction
 router.post('/auctions', async (ctx) => {
   const auction = ctx.request.body
+  const {title} = auction
 
   auction.id = uuid()
+  auction.slug = slug(title, {lower: true})
 
   const newAuction = await knex('auctions')
     .insert(auction)
