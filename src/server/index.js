@@ -21,7 +21,11 @@ app.use(user)
 
 // apply routes
 app.use(routes.routes())
-
+app.use(async (ctx) => {
+  ctx.body = {
+    message: 'Welcome to your api'
+  }
+})
 // server listening
 const server = app.listen(port, () => {
   console.log(`Listening on port ${port}...`);
