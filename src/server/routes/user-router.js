@@ -25,7 +25,8 @@ router.post(`/users/register`, async (ctx) => {
   } catch (err) {
     ctx.status = 500
     ctx.body = {
-      status: 'error'
+      status: 'error',
+      err
     }
   }
 })
@@ -56,10 +57,12 @@ router.post('/users/login', async (ctx) => {
 })
 
 router.get('/auth/user', auth, async (ctx) => {
+  const user = ctx.state.user
+
   ctx.status = 200
-  console.log(ctx.state.user)
   ctx.body = {
     status: 'success',
+    data: user
   }
 })
 

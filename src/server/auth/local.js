@@ -11,15 +11,6 @@ function encodeToken(user) {
   return jwt.sign(payload, secret, {})
 }
 
-function decodeToken(token, callback) {
-  const secret = process.env.TOKEN_SECRET
-  const decoded = jwt.verify(token, secret)
-  const now = moment().unix()
-  if(now > decoded.exp) callback('Token has expired.')
-  else callback(null, decoded)
-}
-
 module.exports = {
-  encodeToken,
-  decodeToken
+  encodeToken
 }

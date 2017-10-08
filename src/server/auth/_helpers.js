@@ -30,7 +30,6 @@ function createUser(user) {
     .returning('*')
 }
 
-
 module.exports = {
   createUser,
   comparePass,

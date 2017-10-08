@@ -9,8 +9,11 @@ module.exports = async (ctx, next) => {
         'id',
         'email',
         'username',
-        'password',
-        'is_admin'
+        'image',
+        'bio',
+        'is_admin',
+        'created_at',
+        'updated_at'
       )
       .where({id: jwt.sub})
   }

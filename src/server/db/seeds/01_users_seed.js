@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const faker = require('faker')
 const users = [
   {
     id: '345ae4d0-f2c3-4342-91a2-5b45cb8db57f',
@@ -34,7 +35,11 @@ function getUsers () {
       email: user.email || `${user.name}@email.com`,
       username: user.name,
       password: hash,
-      is_admin: user.admin || false
+      bio: faker.lorem.sentences(),
+      image: faker.image.avatar(),
+      is_admin: user.admin || false,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     }
   })
 }

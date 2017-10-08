@@ -16,17 +16,4 @@ describe('auth : local', () => {
     })
   })
 
-  describe('decodeToken()', () => {
-    it('should return a payload', (done) => {
-      const token = localAuth.encodeToken({id: 1})
-      should.exist(token)
-      token.should.be.a('string')
-      localAuth.decodeToken(token, (err, res) => {
-        should.not.exist(err)
-        res.sub.should.eql(1)
-        done()
-      })
-    })
-  })
-
 })
