@@ -1,6 +1,7 @@
 const knex = require('../db/knex')
 const bcrypt = require('bcryptjs')
 const uuid = require('uuid')
+const local = require('./local')
 
 function getUser(username) {
   return knex('users')
@@ -28,6 +29,7 @@ function createUser(user) {
     })
     .returning('*')
 }
+
 
 module.exports = {
   createUser,

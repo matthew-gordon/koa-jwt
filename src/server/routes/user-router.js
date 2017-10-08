@@ -4,6 +4,8 @@ const router = new Router()
 const localAuth = require('../auth/local')
 const authHelpers = require('../auth/_helpers')
 
+const auth = require('../middleware/auth-required-middleware')
+
 // Register new user
 router.post(`/users/register`, async (ctx) => {
   const user = ctx.request.body
@@ -50,6 +52,14 @@ router.post('/users/login', async (ctx) => {
     ctx.body = {
       status: 'error'
     }
+  }
+})
+
+router.get('/auth/user', auth, async (ctx) => {
+  ctx.status = 200
+  console.log(ctx.state.user)
+  ctx.body = {
+    status: 'success',
   }
 })
 
