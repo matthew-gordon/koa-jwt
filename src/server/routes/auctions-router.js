@@ -50,19 +50,28 @@ router.get('/auctions/:slug', async (ctx) => {
 // POST create new auction
 router.post('/auctions', async (ctx) => {
   const auction = ctx.request.body
-  const {title} = auction
 
-  auction.id = uuid()
-  auction.slug = slug(title, {lower: true})
+  try {
+    const {title} = auction
 
-  const newAuction = await knex('auctions')
-    .insert(auction)
-    .returning('*')
+    auction.id = uuid()
+    auction.slug = slug(title, {lower: true})
 
-  ctx.status = 200
-  ctx.body = {
-    status: 'success',
-    data: newAuction
+    const newAuction = await knex('auctions')
+      .insert(auction)
+      .returning('*')
+
+    ctx.status = 200
+    ctx.body = {
+      status: 'success',
+      data: newAuction
+    }
+  } catch (err) {
+    ctx.status = 500
+    ctx.body = {
+      status: 'error',
+      err
+    }
   }
 })
 
@@ -71,35 +80,53 @@ router.put('/auctions/:slug', async (ctx) => {
   const slugParam = ctx.params.slug
   const {body} = ctx.request
   const auction = body
-  const {price} = auction
 
-  auction.price = Number(price)
-  auction.slug = slug(auction.title, {lower:true})
+  try {
+    let {price} = auction
 
-  const updatedAuction = await knex('auctions')
-    .update(auction)
-    .where({slug: slugParam})
-    .returning('*')
+    auction.price = Number(price)
+    auction.slug = slug(auction.title, {lower:true})
 
-  ctx.status = 200
-  ctx.body = {
-    status: 'success',
-    data: updatedAuction
+    const updatedAuction = await knex('auctions')
+      .update(auction)
+      .where({slug: slugParam})
+      .returning('*')
+
+    ctx.status = 200
+    ctx.body = {
+      status: 'success',
+      data: updatedAuction
+    }
+  } catch (err) {
+    ctx.status = 500
+    ctx.body = {
+      status: 'error',
+      err
+    }
   }
 })
 
 // DELETE auction by slug
 router.del('/auctions/:slug', async (ctx) => {
   const {slug} = ctx.params
-  const auction = await knex('auctions')
-    .del()
-    .where({slug})
-    .returning('*')
 
-  ctx.status = 200
-  ctx.body = {
-    status: 'success',
-    data: auction
+  try {
+    const auction = await knex('auctions')
+      .del()
+      .where({slug})
+      .returning('*')
+
+    ctx.status = 200
+    ctx.body = {
+      status: 'success',
+      data: auction
+    }
+  } catch (e) {
+    ctx.status = 500
+    ctx.body = {
+      status: 'error',
+      err
+    }
   }
 })
 

@@ -11,7 +11,7 @@ const routes = require('./routes')
 
 // middleware
 const jwt = require('./middleware/jwt-middleware')
-const user = require('./middleware/user-middleware.js')
+const user = require('./middleware/user-middleware')
 
 // apply middleware
 app.use(logger())
@@ -23,9 +23,10 @@ app.use(user)
 app.use(routes.routes())
 app.use(async (ctx) => {
   ctx.body = {
-    message: 'Welcome to your new api!'
+    message: 'Glasshouse API v1.0.0'
   }
 })
+
 // server listening
 const server = app.listen(port, () => {
   console.log(`Listening on port ${port}...`);
