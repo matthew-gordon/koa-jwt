@@ -1,133 +1,22 @@
+const ctrl = require('../controllers').auctions
 const Router = require('koa-router')
 const router = new Router()
 
-const knex = require('../db/knex')
-const uuid = require('uuid')
-const slug = require('slug')
+const auth = require('../middleware/auth-required-middleware')
 
 // GET all auctions
-router.get('/auctions', async (ctx) => {
-  try {
-    const auctions = await knex('auctions').select()
-
-    ctx.status = 200
-    ctx.body = {
-      status: 'success',
-      data: auctions
-    }
-  } catch (err) {
-    ctx.status = 500
-    ctx.body = {
-      status: 'error',
-      err
-    }
-  }
-})
+router.get('/auctions', ctrl.get)
 
 // GET single auction by slug
-router.get('/auctions/:slug', async (ctx) => {
-  const {slug} = ctx.params
-
-  try {
-    const auction = await knex('auctions')
-    .first()
-    .where({slug})
-
-    ctx.status = 200
-    ctx.body = {
-      status: 'success',
-      data: auction
-    }
-  } catch (err) {
-    ctx.status = 500
-    ctx.body = {
-      status: 'error',
-      err
-    }
-  }
-})
+router.get('/auctions/:slug', ctrl.bySlug)
 
 // POST create new auction
-router.post('/auctions', async (ctx) => {
-  const auction = ctx.request.body
-
-  try {
-    const {title} = auction
-
-    auction.id = uuid()
-    auction.slug = slug(title, {lower: true})
-
-    const newAuction = await knex('auctions')
-      .insert(auction)
-      .returning('*')
-
-    ctx.status = 200
-    ctx.body = {
-      status: 'success',
-      data: newAuction
-    }
-  } catch (err) {
-    ctx.status = 500
-    ctx.body = {
-      status: 'error',
-      err
-    }
-  }
-})
+router.post('/auctions', auth, ctrl.post)
 
 // PUT update an auction by slug
-router.put('/auctions/:slug', async (ctx) => {
-  const slugParam = ctx.params.slug
-  const {body} = ctx.request
-  const auction = body
-
-  try {
-    let {price} = auction
-
-    auction.price = Number(price)
-    auction.slug = slug(auction.title, {lower:true})
-
-    const updatedAuction = await knex('auctions')
-      .update(auction)
-      .where({slug: slugParam})
-      .returning('*')
-
-    ctx.status = 200
-    ctx.body = {
-      status: 'success',
-      data: updatedAuction
-    }
-  } catch (err) {
-    ctx.status = 500
-    ctx.body = {
-      status: 'error',
-      err
-    }
-  }
-})
+router.put('/auctions/:slug', auth, ctrl.put)
 
 // DELETE auction by slug
-router.del('/auctions/:slug', async (ctx) => {
-  const {slug} = ctx.params
-
-  try {
-    const auction = await knex('auctions')
-      .del()
-      .where({slug})
-      .returning('*')
-
-    ctx.status = 200
-    ctx.body = {
-      status: 'success',
-      data: auction
-    }
-  } catch (e) {
-    ctx.status = 500
-    ctx.body = {
-      status: 'error',
-      err
-    }
-  }
-})
+router.del('/auctions/:slug', auth, ctrl.del)
 
 module.exports = router.routes()
