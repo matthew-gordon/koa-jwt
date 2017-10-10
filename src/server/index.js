@@ -23,7 +23,7 @@ app.use(user)
 app.use(routes.routes())
 app.use(async (ctx) => {
   ctx.body = {
-    message: 'Glasshouse API v1.0.0'
+    message: 'Glasshouse API v1.0.1'
   }
 })
 
