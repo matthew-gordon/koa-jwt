@@ -20,7 +20,7 @@ describe('routes : auctions', () => {
   afterEach(() => knex.migrate.rollback())
 
   describe('GET /api/auctions', () => {
-    it('should return all auctions', (done) => {
+    xit('should return all auctions', (done) => {
       chai.request(server)
       .get('/api/auctions')
       .end((err, res) => {
@@ -53,6 +53,7 @@ describe('routes : auctions', () => {
       chai.request(server)
       .get('/api/auctions/new-title')
       .end((err, res) => {
+        // console.log(res);
         should.not.exist(err)
         res.redirects.length.should.eql(0)
         res.status.should.eql(200)
@@ -67,7 +68,7 @@ describe('routes : auctions', () => {
   describe('POST /api/auctions', () => {
     const title = 'new-title-2'
 
-    it('should create a new auction', (done) => {
+    xit('should create a new auction', (done) => {
       chai.request(server)
       .post('/api/users/login')
       .send({
@@ -111,7 +112,7 @@ describe('routes : auctions', () => {
   })
 
   describe('PUT /auctions/:slug', () => {
-    it('should update an auction by slug', (done) => {
+    xit('should update an auction by slug', (done) => {
       chai.request(server)
       .post('/api/users/login')
       .send({
@@ -153,7 +154,7 @@ describe('routes : auctions', () => {
   })
 
   describe('DELETE /auctions/:slug', () => {
-    it('should delete an auction by slug', (done) => {
+    xit('should delete an auction by slug', (done) => {
       chai.request(server)
       .post('/api/users/login')
       .send({

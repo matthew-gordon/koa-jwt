@@ -4,6 +4,36 @@ const slug = require('slug')
 
 module.exports = {
 
+  async bySlug(slug, ctx, next) {
+
+    if (!slug) {
+      ctx.throw(404)
+    }
+
+    const auction = await knex('auctions')
+      .first()
+      .where({slug})
+
+    if(!auction) {
+      ctx.throw(404)
+    }
+
+    const artist = await knex('users')
+      .first('username', 'bio', 'image', 'id')
+      .where({id: auction.artist_id})
+
+    auction.artist = artist
+
+    let watched = []
+
+    auction.watched = false
+
+    ctx.params.auction = auction
+    ctx.params.watched = watched
+
+    await next()
+  },
+
   async get(ctx) {
     try {
       const auctions = await knex('auctions').select()
@@ -22,25 +52,11 @@ module.exports = {
     }
   },
 
-  async bySlug(ctx) {
-    const {slug} = ctx.params
-
-    try {
-      const auction = await knex('auctions')
-      .first()
-      .where({slug})
-
-      ctx.status = 200
-      ctx.body = {
-        status: 'success',
-        data: auction
-      }
-    } catch (err) {
-      ctx.status = 500
-      ctx.body = {
-        status: 'error',
-        err
-      }
+  async getOne(ctx) {
+    ctx.status = 200
+    ctx.body = {
+      status: 'success',
+      data: ctx.params.auction
     }
   },
 

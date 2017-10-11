@@ -13,6 +13,7 @@ module.exports = {
       directory: path.join(BASE_PATH, 'seeds')
     }
   },
+
   development: {
     client: 'pg',
     connection: 'postgres://localhost:5432/gh_api',
@@ -23,6 +24,7 @@ module.exports = {
       directory: path.join(BASE_PATH, 'seeds')
     }
   },
+  
   production: {
     client: 'pg',
     connection: process.env.DATABASE_URL,

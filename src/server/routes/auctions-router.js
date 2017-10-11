@@ -4,11 +4,14 @@ const router = new Router()
 
 const auth = require('../middleware/auth-required-middleware')
 
+// Custom Params
+router.param('slug', ctrl.bySlug)
+
 // GET all auctions
 router.get('/auctions', ctrl.get)
 
 // GET single auction by slug
-router.get('/auctions/:slug', ctrl.bySlug)
+router.get('/auctions/:slug', ctrl.getOne)
 
 // POST create new auction
 router.post('/auctions', auth, ctrl.post)

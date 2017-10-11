@@ -18,7 +18,7 @@ describe('routes : auth', () => {
   afterEach(() => knex.migrate.rollback())
 
   describe('POST /api/users/register', () => {
-    it('should register a new user', (done) => {
+    xit('should register a new user', (done) => {
       chai.request(server)
       .post('/api/users/register')
       .send({
@@ -37,7 +37,7 @@ describe('routes : auth', () => {
         done()
       })
     })
-    it('should throw an error if email already exists', (done) => {
+    xit('should throw an error if email already exists', (done) => {
       chai.request(server)
       .post('api/users/register')
       .send({
@@ -50,7 +50,7 @@ describe('routes : auth', () => {
         done()
       })
     })
-    it('should throw an error if username already exists', (done) => {
+    xit('should throw an error if username already exists', (done) => {
       chai.request(server)
       .post('api/users/register')
       .send({
@@ -66,7 +66,7 @@ describe('routes : auth', () => {
   })
 
   describe('POST /api/users/login', () => {
-    it('should login a user', (done) => {
+    xit('should login a user', (done) => {
       chai.request(server)
       .post('/api/users/login')
       .send({
@@ -83,7 +83,7 @@ describe('routes : auth', () => {
         done()
       })
     })
-    it('should not login an unregistered user', (done) => {
+    xit('should not login an unregistered user', (done) => {
       chai.request(server)
       .post('/api/users/login')
       .send({
@@ -101,7 +101,7 @@ describe('routes : auth', () => {
   })
 
   describe('GET /api/auth/user', () => {
-    it('should return a success', (done) => {
+    xit('should return a success', (done) => {
       chai.request(server)
       .post('/api/users/login')
       .send({
@@ -122,7 +122,7 @@ describe('routes : auth', () => {
         })
       })
     })
-    it('should throw an error if a user is not logged in', (done) => {
+    xit('should throw an error if a user is not logged in', (done) => {
       chai.request(server)
       .get('/api/auth/user')
       .end((err, res) => {
